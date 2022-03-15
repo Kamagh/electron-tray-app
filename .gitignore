@@ -113,3 +113,7 @@ dist
 out/
 # TernJS port file
 .tern-port
+
+
+# debugging
+.vscode/

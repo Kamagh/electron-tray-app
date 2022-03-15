@@ -17,7 +17,9 @@ const WINDOW_SIZE_DEFAULTS = {
 }
 
 export function InitTray() {
-    MainTray = new Tray(path.join(__dirname, "download.png"));
+    console.log("InitTray2");
+
+    MainTray = new Tray("src/download.png");
     createWindow();
 
     MainTray.on("click", function (event) { //eventable click event (should be changed to be useable for all OSs)
@@ -27,9 +29,14 @@ export function InitTray() {
 
     alignWindow();
     ipcMain.emit("tray-window-ready", { window: TrayWindow, tray: MainTray })
+
+    console.log("InitTray2");
+    
 }
 
 function createWindow() {
+    console.log("Create Window1");
+    
     TrayWindow = new BrowserWindow({
         width: WINDOW_SIZE_DEFAULTS.width,
         height: WINDOW_SIZE_DEFAULTS.height,
@@ -63,9 +70,13 @@ function createWindow() {
         event.preventDefault();
         TrayWindow.hide();
     });
+    console.log("Create Window2");
+
 }
 
 function toggleTrayWindow() {
+    console.log("ToggletrayWindow 1");
+    
     if (!TrayWindow) return;
     if (TrayWindow.isVisible()) {
         TrayWindow.hide();
@@ -73,9 +84,14 @@ function toggleTrayWindow() {
         TrayWindow.show();
     }
     ipcMain.emit("tray-window-hidden", { window: TrayWindow, tray: MainTray });
+
+    console.log("ToggletrayWindow 2");
+
 }
 
 function alignWindow() {
+    console.log("ALign Window 1");
+
     if (!TrayWindow) return;
 
     const position = calculateWindowPosition();
@@ -87,9 +103,14 @@ function alignWindow() {
         x: position.x,
         y: position.y
     })
+
+    console.log("ALign Window 2");
+
 }
 
 function calculateWindowPosition() { //calculation of position if its on top or on button based on OS configuration
+    console.log("calcualte Window 1");
+
     if (!MainTray) return;
     const screenBounds = screen.getPrimaryDisplay().size;
     const trayBounds = MainTray.getBounds();
@@ -119,6 +140,7 @@ function calculateWindowPosition() { //calculation of position if its on top or 
             y = Math.floor(trayBounds.y - WINDOW_SIZE_DEFAULTS.height - WINDOW_SIZE_DEFAULTS.margin.y);
             break;
     }
+    console.log("calcualte Window 2");
 
     return {x, y}
 
